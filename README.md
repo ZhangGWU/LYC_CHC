@@ -1,8 +1,9 @@
 ########## LYC_CHC by Linyi Zhang 2023 ###############
-### path to the data ####
+### 1. file preparation ###
+####### path to the data ####
 cd /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/alignment
 
-### convert library barcodes from mac to Unix format 
+####### convert library barcodes from mac to Unix format 
 
 dos2unix lyc_barcodeKey_L1.csv
 mac2unix lyc_barcodeKey_L1.csv 
@@ -31,7 +32,7 @@ cat parsed_x* > parsed_comb_L2.fastq
 /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/parsed/library1
 
 ### 4. alignment ###
-## create index files ##
+######## create index files ##
 #!/bin/sh
 #SBATCH --time=72:00:00
 #SBATCH --nodes=1
