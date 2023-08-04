@@ -64,7 +64,7 @@ perl sam2bam.pl *.sam
 bcftools mpileup -d 8000 -o lyc_CHC.bcf -O b -I -f /uufs/chpc.utah.edu/common/home/gompert-group3/data/LmelGenome/Lmel_dovetailPacBio_genome.fasta aln*sorted.bam 
 bcftools call -c -V indels -v -p 0.05 -P 0.001 -o CHCvariants.vcf lyc_CHC.bcf
 
-##### 6. Filtering ######
+### 6. Filtering ######
 sbatch filter1.sh
 sbatch filter2.sh
 
