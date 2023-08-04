@@ -10,8 +10,6 @@ mac2unix lyc_barcodeKey_L1.csv
 dos2unix  lyc_barcodeKey_L2.csv
 mac2unix lyc_barcodeKey_L2.csv 
 
-### parsing #####
-
 ### 2. split fastq files ####
 split -l 90000000 ../Gomp032_S1_L001_R1_001.fastq
 split -l 90000000 ../Gomp033_S2_L002_R1_001.fastq
@@ -44,6 +42,7 @@ cat parsed_x* > parsed_comb_L2.fastq
 
 bwa index -p lycCHC_ref -a is /uufs/chpc.utah.edu/common/home/gompert-group3/data/LmelGenome/Lmel_dovetailPacBio_genome.fasta
 
+### 5. variant calling ###
 ########## generate sam files ##
 ########## change ref.ID in runbwa.pl #
 conda activate pipeline-structural-variation
@@ -63,7 +62,7 @@ perl sam2bam.pl *.sam
 bcftools mpileup -d 8000 -o lyc_CHC.bcf -O b -I -f /uufs/chpc.utah.edu/common/home/gompert-group3/data/LmelGenome/Lmel_dovetailPacBio_genome.fasta aln*sorted.bam 
 bcftools call -c -V indels -v -p 0.05 -P 0.001 -o CHCvariants.vcf lyc_CHC.bcf
 
-##### filtering ######
+##### 6. Filtering ######
 sbatch filter1.sh
 sbatch filter2.sh
 
