@@ -1,4 +1,5 @@
-########## LYC_CHC by Linyi Zhang 2023 ###############
+#### LYC_CHC by Linyi Zhang 2023 #######
+
 ### 1. file preparation ###
 ####### path to the data ####
 cd /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/alignment
