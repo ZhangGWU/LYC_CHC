@@ -1,6 +1,6 @@
 # LYC_CHC by Linyi Zhang 2023 #
 
-### 1. file preparation ###
+### 1. File preparation ###
 ####### path to the data ####
 cd /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/alignment
 
@@ -12,11 +12,11 @@ mac2unix lyc_barcodeKey_L1.csv
 dos2unix  lyc_barcodeKey_L2.csv
 mac2unix lyc_barcodeKey_L2.csv 
 
-### 2. split fastq files ####
+### 2. Split fastq files ####
 split -l 90000000 ../Gomp032_S1_L001_R1_001.fastq
 split -l 90000000 ../Gomp033_S2_L002_R1_001.fastq
 
-### 3. parse ###
+### 3. Parse ###
 sbatch parse.sh
 squeue -u u6033116
 
@@ -32,7 +32,7 @@ cat parsed_x* > parsed_comb_L1.fastq
 cat parsed_x* > parsed_comb_L2.fastq
 /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/parsed/library1
 
-### 4. alignment ###
+### 4. Alignment ###
 ######## create index files ##
 #!/bin/sh
 #SBATCH --time=72:00:00
@@ -44,7 +44,7 @@ cat parsed_x* > parsed_comb_L2.fastq
 
 bwa index -p lycCHC_ref -a is /uufs/chpc.utah.edu/common/home/gompert-group3/data/LmelGenome/Lmel_dovetailPacBio_genome.fasta
 
-### 5. variant calling ###
+### 5. Variant calling ###
 ########## generate sam files ##
 ########## change ref.ID in runbwa.pl #
 conda activate pipeline-structural-variation
