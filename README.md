@@ -1,4 +1,4 @@
-#### LYC_CHC by Linyi Zhang 2023 #######
+# LYC_CHC by Linyi Zhang 2023 #
 
 ### 1. file preparation ###
 ####### path to the data ####
