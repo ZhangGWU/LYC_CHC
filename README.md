@@ -6,11 +6,11 @@ cd /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/
 
 ####### convert library barcodes from mac to Unix format 
 
-dos2unix lyc_barcodeKey_L1.csv
-mac2unix lyc_barcodeKey_L1.csv 
+######### dos2unix lyc_barcodeKey_L1.csv
+######### mac2unix lyc_barcodeKey_L1.csv 
 
-dos2unix  lyc_barcodeKey_L2.csv
-mac2unix lyc_barcodeKey_L2.csv 
+######### dos2unix  lyc_barcodeKey_L2.csv
+######### mac2unix lyc_barcodeKey_L2.csv 
 
 ### 2. Split fastq files ####
 ####### this is because the fastq file is too big to be processed all together #######
@@ -111,14 +111,18 @@ sbatch coverage.sh  #### output file: total_coverage.txt
 
 ### 8. prepare files for Entropy ###
 ###### genotype likelihoods from the variants ########
-perl vcf2mpgl_CCN_1.9.pl doubleFiltered_variants.vcf  ### need to change the expression to match the header of vcf ###
+perl vcf2mpgl_CCN_1.9.pl doubleFiltered_variants.vcf  ### need to change the expression to match the header of vcf ### this generate doubleFiltered_variantsnew.mpgl
+
+cat header_ids.txt doubleFiltered_variantsnew.mpgl >lyc_variantsnew.gl
+
+############ remove one individual which is lack of individual id ###################
+cut -d' ' -f1-1762,1766-2294 doubleFiltered_variants.mpgl >doubleFiltered_variantsnew.mpgl
 
 ###### transform the genotype likelihood files into a genotype matrix (point estimate of genotype) ####
-perl gl2genest.pl doubleFIltered_variants.mpgl
+sbatch mpgl2peg.sh ######## perl gl2genest.pl doubleFiltered_variantsnew.mpgl ###########
+######## this will generate gl_doubleFiltered_variantsnew.mpgl, this genotype matrix is used for generating ldak files ######
 
-awk '{ print $3 }' doubleFiltered_variants.af >lyc_variants.af
-mv lyc_variants.af af_lycvariants.txt
-perl gl2genest.pl af_lycvariants.txt lyc_variantsnew.gl
+sbatch run_entropy_lmel.sh
 
 
 
