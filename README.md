@@ -41,7 +41,7 @@ module load perl
 
 perl ../RunParseFork.pl x*
 ```
-RunParseForkl.pl is attached in the depository 
+`RunParseForkl.pl` is attached in the depository 
 
 #### Get individual ID file 
 ```
@@ -51,16 +51,19 @@ sed 1d lycID_L1.csv> lycID_L1new.csv
 cut -d',' -f3- lyc_barcodeKey_L2.csv >lycID_L2.csv
 sed 1d lycID_L2.csv> lycID_L2new.csv
 ```
-#### combine all fastq files #######
+#### Combine all fastq files #######
 ```
 cat parsed_x* > parsed_comb_L1.fastq
 cat parsed_x* > parsed_comb_L2.fastq
 ```
 
-### 4. Alignment and variant calling ###
-##### aligning individual reads to the reference genome and get SNP calls ##### 
-conda activate pipeline-structural-variation
-######## create index files from reference genome #######
+### 4. Alignment and variant calling
+Aligning individual reads to the reference genome and get SNP calls 
+```
+conda activate pipeline-structural-variation ### this is to activate bwa function 
+```
+#### Create index files from reference genome
+```
 #!/bin/sh
 #SBATCH --time=72:00:00
 #SBATCH --nodes=1
@@ -70,9 +73,11 @@ conda activate pipeline-structural-variation
 #SBATCH --job-name=Index
 
 bwa index -p lycCHC_ref -a is /uufs/chpc.utah.edu/common/home/gompert-group3/data/LmelGenome/Lmel_dovetailPacBio_genome.fasta
+```
 
-########## generate sam files for variant calling ###########
-########## change ref.ID in runbwa.pl ###########
+Generate sam files for variant calling 
+change ref.ID in the file `runbwa.pl`
+```
 #!/bin/sh
 #SBATCH --time=72:00:00
 #SBATCH --nodes=1
@@ -83,8 +88,11 @@ bwa index -p lycCHC_ref -a is /uufs/chpc.utah.edu/common/home/gompert-group3/dat
 
 module load perl
 perl runbwa.pl *fastq
+```
 
-nano sam2bam.sh 
+Convert sam file into bam file
+code file is sam2bam.sh 
+```
 #!/bin/sh
 #SBATCH --time=72:00:00
 #SBATCH --nodes=1
@@ -95,18 +103,20 @@ nano sam2bam.sh
 
 module load perl
 perl sam2bam.pl *.sam
-
-########## call SNPS #############
-nano variantcall.sh
+```
+#### Call SNPS 
+Code file is variantcall.sh
+```
 #!/bin/sh
 #SBATCH --time=72:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --account=gompert-kp
 #SBATCH --partition=gompert-kp
-bcftools mpileup -d 8000 -o lyc_CHC.bcf -O b -I -f /uufs/chpc.utah.edu/common/home/gompert-group3/data/LmelGenome/Lmel_dovetailPacBio_genome.fasta aln*sorted.bam 
-
-nano variantcall2.sh
+bcftools mpileup -d 8000 -o lyc_CHC.bcf -O b -I -f /uufs/chpc.utah.edu/common/home/gompert-group3/data/LmelGenome/Lmel_dovetailPacBio_genome.fasta aln*sorted.bam
+```
+Code file is variantcall2.sh
+```
 #!/bin/sh
 #SBATCH --time=72:00:00
 #SBATCH --nodes=1
@@ -114,38 +124,143 @@ nano variantcall2.sh
 #SBATCH --account=gompert-kp
 #SBATCH --partition=gompert-kp
 bcftools call -c -V indels -v -p 0.05 -P 0.001 -o CHCvariants.vcf lyc_CHC.bcf
-
+```
 ### 5. Filtering ######
-sbatch filter1.sh
-sbatch filter2.sh
+First round of filtering include a series of parameters including 
++ minCoverage = 2* number of individuals
++ allele frequency min = 0.001
++ allele frequency max = 0.999
++ missing number of individuals with no data = 153 ### 20% of individuals ###
 
-########### r script , get the depth filter stats #
-####### first round filtering: remove alleles that are fixed (afreqMin= 0.001, afreqMax=0.999); set p value for bqrs, mqrs, rprs: 0.00001 ####
-############ depth filtering: maxCoverage= mean + 3sd : 49181.89###
+Filtering round 1 code file: filter1.sh
+```
+#!/bin/sh
+#SBATCH --time=72:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --account=gompert-kp
+#SBATCH --partition=gompert-kp
+#SBATCH --job-name=filter1CHC
 
-perl vcfFilter_CCN_1.9 more.pl  filtered_firstRound_variants.vcf  ### make sure everything is the same as vcfFilter_CCN_1.9.pl, expect for depth coverage ###
+perl vcfFilter_CCN_1.9.pl variants.vcf
+```
+
+Get the coverage depth for each loci, filter2.sh
+```
+#!/bin/sh
+#SBATCH --time=12:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --account=gompert-kp
+#SBATCH --partition=gompert-kp
+#SBATCH --job-name=filter2CHC
+
+perl depthCollector_1.9.pl filtered_firstRound_variants.vcf
+```
+
+Use R script to get the depth filter stats #
+
+Filtering round 2 code file: filter3.sh ### depth filtering: maxCoverage= mean + 3sd : 49181.89, make sure everything is the same as vcfFilter_CCN_1.9.pl, expect for depth coverage
+```
+#!/bin/sh
+#SBATCH --time=12:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --account=gompert-kp
+#SBATCH --partition=gompert-kp
+#SBATCH --job-name=filter3CHC
+
+perl vcfFilter_CCN_1.9_more.pl filtered_firstRound_variants.vcf
+```
+
+```
 mv filtered_secondRound_filtered_firstRound_variants.vcf doubleFiltered_variants.vcf
-
+```
 ### 6. quantify coverage ###
-sbatch coverage.sh  #### output file: total_coverage.txt
-######### remove individuals with <2x depth ########
+Code file for coverage counting: sbatch coverage.sh
+```
+#!/bin/sh
+#SBATCH --time=36:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --account=gompert
+#SBATCH --partition=kingspeak
+#SBATCH --job-name=EScov2
+
+
+# Directory containing BAM files
+bam_dir="/uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/alignment/bamfile/"
+
+# Output file name
+output_file="total_coverage.txt"
+
+# Get a list of all BAM files in the directory
+bam_files=("$bam_dir"/*.sorted.bam)
+
+# Iterate over BAM files
+for bam_file in "${bam_files[@]}"; do
+    # Extract individual name from the BAM file name
+    individual=$(basename "$bam_file" .bam)
+
+    # Use samtools to calculate coverage and extract relevant information
+    coverage=$(samtools depth -a "$bam_file" | awk '{sum += $3} END {print sum}')
+
+    # Print individual coverage to the output file
+    echo -e "$individual\t$coverage" >> "$output_file"
+done
+```
+Output file: total_coverage.txt
+Remove individuals with <2x depth
 
 ### 7. redo variant calling and filtering ####
 
 ### 8. prepare files for Entropy ###
-###### genotype likelihoods from the variants ########
-perl vcf2mpgl_CCN_1.9.pl doubleFiltered_variants.vcf  ### need to change the expression to match the header of vcf ### this generate doubleFiltered_variantsnew.mpgl
+#### Genotype likelihoods from the variants
+```
+perl vcf2mpgl_CCN_1.9.pl doubleFiltered_variants.vcf  ### need to change the expression in vcf2mpgl_CCN_1.9.pl to match the header of vcf
 
-cat header_ids.txt doubleFiltered_variantsnew.mpgl >lyc_variantsnew.gl
-
-############ remove one individual which is lack of individual id ###################
+```
+This generate doubleFiltered_variants.mpgl, remove one individual which is lack of individual id 
+```
 cut -d' ' -f1-1762,1766-2294 doubleFiltered_variants.mpgl >doubleFiltered_variantsnew.mpgl
+```
+Add the header, this is input file for entropy run
 
-###### transform the genotype likelihood files into a genotype matrix (point estimate of genotype) ####
-sbatch mpgl2peg.sh ######## perl gl2genest.pl doubleFiltered_variantsnew.mpgl ###########
-######## this will generate gl_doubleFiltered_variantsnew.mpgl, this genotype matrix is used for generating ldak files ######
+```
+cat header_ids.txt doubleFiltered_variantsnew.mpgl >lyc_variantsnew.gl
+```
 
-sbatch run_entropy_lmel.sh
+#### Transform the genotype likelihood files into a genotype matrix (point estimate of genotype) 
+This is the code file mpgl2peg.sh 
+```
+#!/bin/sh
+#SBATCH --time=72:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --account=gompert-np
+#SBATCH --partition=gompert-np
+#SBATCH --job-name=peg
 
+perl gl2genest.pl doubleFiltered_variantsnew.mpgl
+```
+This will generate gl_doubleFiltered_variantsnew.mpgl, this genotype matrix is used for generating ldak files. R script for ldak files is in the depository
 
+Run entropy: run_entropy_lmel.sh
+```
+#!/bin/sh 
+#SBATCH --time=172:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=24
+#SBATCH --account=gompert-np
+#SBATCH --partition=gompert-np
+#SBATCH --job-name=entropy
+#SBATCH --mail-type=FAIL
+#SBATCH --mail-user=linyizhangecnu@gmail.com
 
+module purge
+module load gcc/8.5.0 hdf5/1.10.7
+
+cd /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/alignment/entropynew/
+
+perl forkEntropy_lmel.pl
+```
