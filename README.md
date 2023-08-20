@@ -1,38 +1,61 @@
 # LYC_CHC by Linyi Zhang 2023 #
 
 ### 1. File preparation ###
-####### path to the data ####
+Path to the data 
+```
 cd /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/alignment
+```
 
-####### convert library barcodes from mac to Unix format 
+Convert library barcodes from mac to Unix format 
+```
+dos2unix lyc_barcodeKey_L1.csv
+mac2unix lyc_barcodeKey_L1.csv 
 
-######### dos2unix lyc_barcodeKey_L1.csv
-######### mac2unix lyc_barcodeKey_L1.csv 
-
-######### dos2unix  lyc_barcodeKey_L2.csv
-######### mac2unix lyc_barcodeKey_L2.csv 
+dos2unix  lyc_barcodeKey_L2.csv
+mac2unix lyc_barcodeKey_L2.csv 
+```
 
 ### 2. Split fastq files ####
-####### this is because the fastq file is too big to be processed all together #######
+This is because the parsing time for the single big fastq file is too long, well beyond wall time 
+```
 split -l 90000000 ../Gomp032_S1_L001_R1_001.fastq
 split -l 90000000 ../Gomp033_S2_L002_R1_001.fastq
+```
 
 ### 3. Parse ### 
-##### removing barcodes and cut sites from raw reads and attaching ind. IDs #####
-sbatch parse.sh
-squeue -u u6033116
+Removing barcodes and cut sites from raw reads and attaching ind. IDs
 
-######## get individual ID file ###########
-cut -d',' -f3- lyc_barcodeKey_L1.csv >lycID_L1.csv
+This is the code file: parse.sh
+```
+#!/bin/sh 
+#SBATCH --time=100:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=24
+#SBATCH --account=gompert-kp
+#SBATCH --partition=gompert-kp
+#SBATCH --job-name=L1lycparse
+
+cd library1
+
+module load perl
+
+perl ../RunParseFork.pl x*
+```
+RunParseForkl.pl is attached in the depository 
+
+#### Get individual ID file 
+```
+cut -d',' -f3- lyc_barcodeKey_L1.csv >lycID_L1.csv ### remove the first two columns
 sed 1d lycID_L1.csv> lycID_L1new.csv
 
 cut -d',' -f3- lyc_barcodeKey_L2.csv >lycID_L2.csv
 sed 1d lycID_L2.csv> lycID_L2new.csv
-
-######## combine all fastq files #######
+```
+#### combine all fastq files #######
+```
 cat parsed_x* > parsed_comb_L1.fastq
 cat parsed_x* > parsed_comb_L2.fastq
-/uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/parsed/library1
+```
 
 ### 4. Alignment and variant calling ###
 ##### aligning individual reads to the reference genome and get SNP calls ##### 
