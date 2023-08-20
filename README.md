@@ -176,7 +176,7 @@ perl vcfFilter_CCN_1.9_more.pl filtered_firstRound_variants.vcf
 ```
 mv filtered_secondRound_filtered_firstRound_variants.vcf doubleFiltered_variants.vcf
 ```
-### 6. quantify coverage ###
+### 6. Quantify coverage ###
 Code file for coverage counting: sbatch coverage.sh
 ```
 #!/bin/sh
@@ -212,9 +212,9 @@ done
 Output file: total_coverage.txt
 Remove individuals with <2x depth
 
-### 7. redo variant calling and filtering ####
+### 7. Redo variant calling and filtering ####
 
-### 8. prepare files for Entropy ###
+### 8. Prepare files for Entropy ###
 #### Genotype likelihoods from the variants
 ```
 perl vcf2mpgl_CCN_1.9.pl doubleFiltered_variants.vcf  ### need to change the expression in vcf2mpgl_CCN_1.9.pl to match the header of vcf
@@ -245,7 +245,7 @@ perl gl2genest.pl doubleFiltered_variantsnew.mpgl
 ```
 This will generate gl_doubleFiltered_variantsnew.mpgl, this genotype matrix is used for generating ldak files. R script for ldak files is in the depository
 
-Run entropy: run_entropy_lmel.sh
+#### Run entropy: run_entropy_lmel.sh
 ```
 #!/bin/sh 
 #SBATCH --time=172:00:00
