@@ -263,4 +263,22 @@ module load gcc/8.5.0 hdf5/1.10.7
 cd /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/alignment/entropynew/
 
 perl forkEntropy_lmel.pl
+
+```
+#### Get the genotype estimates from entropy: run CHCgprob.sh ####
+```
+#!/bin/sh 
+#SBATCH --time=72:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=24
+#SBATCH --account=gompert-np
+#SBATCH --partition=gompert-np
+#SBATCH --job-name=CHCgprob
+
+
+module purge
+module load gcc/8.5.0 hdf5/1.10.7
+
+/uufs/chpc.utah.edu/common/home/u6000989/bin/estpost.entropy out_lmel_k2_ch1.hdf5 out_lmel_k2_ch2.hdf5 out_lmel_k2_ch3.hdf5 out_lmel_k2_ch4.hdf5 out_lmel_k2_ch5.hdf5 out_lmel_k2_ch6.hdf5 out_lmel_k2_ch7.hdf5 out_lmel_k2_ch8.hdf5 out_lmel_k2_ch9.hdf5 out_lmel_k2_ch10.hdf5  out_lmel_k3_ch1.hdf5 out_lmel_k3_ch2.hdf5 out_lmel_k3_ch3.hdf5 out_lmel_k3_ch4.hdf5 out_lmel_k3_ch5.hdf5 out_lmel_k3_ch6.hdf5 out_lmel_k3_ch7.hdf5 out_lmel_k3_ch8.hdf5 out_lmel_k3_ch9.hdf5 out_lmel_k3_ch10.hdf5 out_lmel_k4_ch1.hdf5 out_lmel_k4_ch2.hdf5 out_lmel_k4_ch3.hdf5 out_lmel_k4_ch4.hdf5 out_lmel_k4_ch5.hdf5 out_lmel_k4_ch6.hdf5 out_lmel_k4_ch7.hdf5 out_lmel_k4_ch8.hdf5 out_lmel_k4_ch9.hdf5 out_lmel_k4_ch10.hdf5 -o CHC_gprobnew.txt -p gprob -s 0
+
 ```
