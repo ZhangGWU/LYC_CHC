@@ -245,7 +245,7 @@ perl gl2genest.pl doubleFiltered_variantsnew.mpgl
 ```
 This will generate gl_doubleFiltered_variantsnew.mpgl, this genotype matrix is used for generating ldak files. R script for ldak files is in the depository
 
-#### Run entropy: run_entropy_lmel.sh
+### 9. Run entropy: run_entropy_lmel.sh
 ```
 #!/bin/sh 
 #SBATCH --time=172:00:00
@@ -265,7 +265,8 @@ cd /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/
 perl forkEntropy_lmel.pl
 
 ```
-#### Get the genotype estimates from entropy: run CHCgprob.sh ####
+
+### 10. Get the genotype estimates from entropy: run CHCgprob.sh ####
 ```
 #!/bin/sh 
 #SBATCH --time=72:00:00
