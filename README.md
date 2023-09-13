@@ -215,6 +215,11 @@ Remove individuals with <2x depth
 ### 7. Redo variant calling and filtering ####
 
 ### 8. Prepare files for Entropy ###
+##### directory ###
+```
+/uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/alignment/entropynew/
+
+```
 #### Genotype likelihoods from the variants
 ```
 perl vcf2mpgl_CCN_1.9.pl doubleFiltered_variants.vcf  ### need to change the expression in vcf2mpgl_CCN_1.9.pl to match the header of vcf
