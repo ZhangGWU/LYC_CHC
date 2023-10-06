@@ -158,9 +158,20 @@ Get the coverage depth for each loci, filter2.sh
 perl depthCollector_1.9.pl filtered_firstRound_variants.vcf
 ```
 
-Use R script to get the depth filter stats #
+Use R script to get the depth filter stats # The strategy is to  lter those loci which have extremely high sequencing depth 
+because they are likely to be assemblies of paralogous loci.
+```
+dat<-read.table("depth_filtered_firstRound_variants.vcf",header=F)
+dim(dat)
+dat[1:5,]
+summary(dat$V3)
+sd(dat$V3)
+max<-mean(dat$V3)+2*sd(dat$V3)
+length(which(dat$V3 > max))
 
-Filtering round 2 code file: filter3.sh ### depth filtering: maxCoverage= mean + 3sd : 49181.89, make sure everything is the same as vcfFilter_CCN_1.9.pl, expect for depth coverage
+```
+
+Filtering round 2 code file: filter3.sh ### depth filtering: maxCoverage= mean + 2sd : 37760.82, make sure everything is the same as vcfFilter_CCN_1.9.pl, expect for depth coverage
 ```
 #!/bin/sh
 #SBATCH --time=12:00:00
