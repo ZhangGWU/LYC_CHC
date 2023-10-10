@@ -200,7 +200,7 @@ Code file for coverage counting: sbatch coverage.sh
 
 
 # Directory containing BAM files
-bam_dir="/uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/alignment/bamfile/"
+bam_dir="/uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/vcall"
 
 # Output file name
 output_file="total_coverage.txt"
@@ -209,7 +209,9 @@ output_file="total_coverage.txt"
 bam_files=("$bam_dir"/*.sorted.bam)
 
 # Iterate over BAM files
-for bam_file in "${bam_files[@]}"; do
+calculate_coverage () {
+
+    bam_file="$1"
     # Extract individual name from the BAM file name
     individual=$(basename "$bam_file" .bam)
 
@@ -217,11 +219,17 @@ for bam_file in "${bam_files[@]}"; do
     coverage=$(samtools depth -a "$bam_file" | awk '{sum += $3} END {print sum}')
 
     # Print individual coverage to the output file
-    echo -e "$individual\t$coverage" >> "$output_file"
-done
+    echo -e "$individual\t$coverage"
+
+}
+
+# Export the function so it's accessible to parallel
+export -f calculate_coverage
+
+parallel -j 24 calculate_coverage ::: "${bam_files[@]}" > "$output_file"
 ```
-Output file: total_coverage.txt
-Remove individuals with <2x depth
+
+Remove individuals with <2x depth (2*211376)
 
 ### 7. Redo variant calling and filtering ####
 
