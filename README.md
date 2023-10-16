@@ -238,6 +238,8 @@ sbatch variantcall.sh
 sbatch filter1.sh
 sbatch filter2.sh
 sbatch filter3.sh ### depth filtering: total loci： 217166， maxCoverage= mean + 2sd : 37413.41, make sure everything is the same as vcfFilter_CCN_1.9.pl, expect for depth coverage
+
+mv filtered_secondRound_filtered_firstRound_variants.vcf doubleFiltered_variants.vcf ### rename the file ##
 、、、
 ### 8. Prepare files for Entropy ###
 ##### directory ###
