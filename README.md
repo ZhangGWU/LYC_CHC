@@ -3,7 +3,7 @@
 ### 1. File preparation ###
 Path to the data 
 ```
-cd /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/alignment
+cd /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/
 ```
 
 Convert library barcodes from mac to Unix format 
