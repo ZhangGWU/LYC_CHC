@@ -229,10 +229,16 @@ export -f calculate_coverage
 parallel -j 24 calculate_coverage ::: "${bam_files[@]}" > "$output_file"
 ```
 
-Remove individuals with <2x depth (2*211376)
+Remove individuals with <2x depth (2*211376), remove 15 more individuals, leave 750 individuals
 
 ### 7. Redo variant calling and filtering ####
-
+in the directory vrecall
+、、、
+sbatch variantcall.sh
+sbatch filter1.sh
+sbatch filter2.sh
+sbatch filter3.sh ### depth filtering: total loci： 217166， maxCoverage= mean + 2sd : 37413.41, make sure everything is the same as vcfFilter_CCN_1.9.pl, expect for depth coverage
+、、、
 ### 8. Prepare files for Entropy ###
 ##### directory ###
 ```
