@@ -252,15 +252,7 @@ mv filtered_secondRound_filtered_firstRound_variants.vcf doubleFiltered_variants
 perl vcf2mpgl_CCN_1.9.pl doubleFiltered_variants.vcf  ### need to change the expression in vcf2mpgl_CCN_1.9.pl to match the header of vcf
 
 ```
-This generate doubleFiltered_variants.mpgl, remove one individual which is lack of individual id 
-```
-cut -d' ' -f1-1762,1766-2294 doubleFiltered_variants.mpgl >doubleFiltered_variantsnew.mpgl
-```
-Add the header, this is input file for entropy run
-
-```
-cat header_ids.txt doubleFiltered_variantsnew.mpgl >lyc_variantsnew.gl
-```
+This generate doubleFiltered_variants.mpgl
 
 #### Transform the genotype likelihood files into a genotype matrix (point estimate of genotype) 
 This is the code file mpgl2peg.sh 
@@ -276,6 +268,13 @@ This is the code file mpgl2peg.sh
 perl gl2genest.pl doubleFiltered_variantsnew.mpgl
 ```
 This will generate gl_doubleFiltered_variantsnew.mpgl, this genotype matrix is used for generating ldak files. R script for ldak files is in the depository
+
+
+Add the header, this is input file for entropy run
+
+```
+cat header_ids.txt doubleFiltered_variantsnew.mpgl >lyc_variantsnew.gl
+```
 
 ### 9. Run entropy: run_entropy_lmel.sh
 ```
