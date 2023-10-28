@@ -269,20 +269,7 @@ perl gl2genest.pl doubleFiltered_variantsnew.mpgl
 ```
 This will generate gl_doubleFiltered_variantsnew.mpgl, this genotype matrix is used for generating ldak files. R script for ldak files is in the depository
 
-### coverage for individual and loci 
-```
-#!/bin/sh 
-#SBATCH --time=24:00:00
-#SBATCH --nodes=1
-#SBATCH --ntasks=24
-#SBATCH --account=gompert-kp
-#SBATCH --partition=gompert-kp
-#SBATCH --job-name=cov2      
-
-perl coverage_calc_bam_CCN.pl doubleFiltered_variants.mpgl indiv_ids.txt /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/vrecall/sortbam/
-```
-
-Add the header, this is input file for entropy run
+### Add the header, this is input file for entropy run ###
 
 ```
 cat header_ids.txt doubleFiltered_variantsnew.mpgl >lyc_variantsnew.gl
