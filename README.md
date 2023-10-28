@@ -264,14 +264,16 @@ This is the code file mpgl2peg.sh
 #SBATCH --partition=gompert-np
 #SBATCH --job-name=peg
 
-perl gl2genest.pl doubleFiltered_variantsnew.mpgl
+perl gl2genest.pl doubleFiltered_variants.mpgl
 ```
-This will generate gl_doubleFiltered_variantsnew.mpgl, this genotype matrix is used for generating ldak files. R script for ldak files is in the depository
+This will generate gl_doubleFiltered_variants.mpgl, this genotype matrix is used for generating ldak files. R script for ldak files is in the depository
 
 #### Add the header, this is input file for entropy run ###
 
 ```
-cat header_ids.txt doubleFiltered_variantsnew.mpgl >lyc_variantsnew.gl
+awk -F "," '{print $1}' indiv_ids.txt | tr '\n' ' '>indiv_id2.txt ### get individual id list ###
+
+cat indiv_id2.txt doubleFiltered_variants.mpgl >lyc_variants.gl
 ```
 
 ### 9. Run entropy: run_entropy_lmel.sh
