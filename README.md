@@ -244,7 +244,7 @@ mv filtered_secondRound_filtered_firstRound_variants.vcf doubleFiltered_variants
 ### 8. Prepare files for Entropy ###
 #### Directory ###
 ```
-/uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/alignment/entropy/
+/uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/entropy/
 ```
 #### Genotype likelihoods from the variants
 ```
