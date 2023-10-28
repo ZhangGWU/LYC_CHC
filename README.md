@@ -242,10 +242,9 @@ sbatch filter3.sh ### depth filtering: total loci： 217166， maxCoverage= mean
 mv filtered_secondRound_filtered_firstRound_variants.vcf doubleFiltered_variants.vcf ### rename the file ##
 ```
 ### 8. Prepare files for Entropy ###
-##### directory ###
+#### Directory ###
 ```
-/uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/alignment/entropynew/
-
+/uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/alignment/entropy/
 ```
 #### Genotype likelihoods from the variants
 ```
@@ -269,7 +268,7 @@ perl gl2genest.pl doubleFiltered_variantsnew.mpgl
 ```
 This will generate gl_doubleFiltered_variantsnew.mpgl, this genotype matrix is used for generating ldak files. R script for ldak files is in the depository
 
-### Add the header, this is input file for entropy run ###
+#### Add the header, this is input file for entropy run ###
 
 ```
 cat header_ids.txt doubleFiltered_variantsnew.mpgl >lyc_variantsnew.gl
