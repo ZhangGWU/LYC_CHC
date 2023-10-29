@@ -271,9 +271,11 @@ This will generate gl_doubleFiltered_variants.mpgl, this genotype matrix is used
 #### Add the header, this is input file for entropy run ###
 
 ```
-awk -F "," '{print $1}' indiv_ids.txt | tr '\n' ' '>indiv_id2.txt ### get individual id list ###
+awk -F, '{print $1}' indiv_ids.txt |tr '\n' ' '>ids_col1.txt
+awk -F- '{print $1}' indiv_ids.txt |tr '\n' ' '>ids_col2.txt
+cat ids_col1.txt ids_col2.txt >header_ids.txt
 
-cat indiv_id2.txt doubleFiltered_variants.mpgl >lyc_variants.gl
+cat header_ids.txt gl_doubleFiltered_variants.mpgl >f_gl_doubleFiltered_variants.mpgl
 ```
 
 ### 9. Run entropy: run_entropy_lmel.sh
