@@ -142,7 +142,7 @@ Filtering round 1 code file: filter1.sh
 #SBATCH --partition=gompert-kp
 #SBATCH --job-name=filter1CHC
 
-perl vcfFilter_CCN_1.9.pl variants.vcf
+perl vcfFilter_CCN_1.9.pl variants.vcf #### need to chech the perl script to make sure the line search for loci matches the scaffold heads in your genome. 
 ```
 
 Get the coverage depth for each loci, filter2.sh
