@@ -18,16 +18,16 @@ use strict;
 #
 
 #### stringency variables, edits as desired
-my $minCoverage = 766; # minimum number of sequences; DP   example 175 inds * 2 = 350 = 2x coverage
+my $minCoverage = 1500; # minimum number of sequences; DP   example 750 * 2= 1500 = 2x coverage
 # my $minAltRds = 20; # minimum number of sequences with the alternative allele; AC  # given how samtools deals with missing data, this is no longer valid filter
 my $notFixed = 1.0; # removes loci fixed for alt; AF
-my $bqrs = 3; # maximum absolute value of the base quality rank sum test; BaseQRankSum BQB as z-score normal approximation - 3 sd
-my $mqrs = 2.5; # maximum absolute value of the mapping quality rank sum test; MQRankSum  MQB
-my $rprs = 2; # maximum absolute value of the read position rank sum test; ReadPosRankSum  RPB
-my $afreqMin = 0.05; # minimum allele freq; AF1  #
-my $afreqMax = 0.95; # maximum allele freq; AF1  #
+my $bqrs = 0.00001; # maximum absolute value of the base quality rank sum test; BaseQRankSum BQB as z-score normal approximation - 3 sd
+my $mqrs = 0.00001; # maximum absolute value of the mapping quality rank sum test; MQRankSum  MQB
+my $rprs = 0.00001; # maximum absolute value of the read position rank sum test; ReadPosRankSum  RPB
+my $afreqMin = 0.001; # minimum allele freq; AF1  #
+my $afreqMax = 0.999; # maximum allele freq; AF1  #
 my $mq = 30; # minimum mapping quality; MQ
-my $miss = 77; # maximum number of individuals with no data (this is essential the old -d but using numbers of inds rather than proportion)
+my $miss = 150; # maximum number of individuals with no data (this is essential the old -d but using numbers of inds rather than proportion)
 ################################ 
 my $d;
 
@@ -49,7 +49,7 @@ while (<IN>){
 	if (m/^\#/){ ## header row, always write
 		$flag = 1;
 	}
-	elsif (m/(Chromosome\d+|ctg\d+\.\d+)/){ ## this is a sequence line, you migh need to edit this reg. expr.   Scaffold_2;HRSCAF_10    11407
+	elsif (m/^Scaffold\_(\d+)\S+\s+(\d+)/){ ## this is a sequence line, you migh need to edit this reg. expr.   Scaffold_2;HRSCAF_10    11407
 	  my $scaff = $1;
 	  my $pos = $2;
 	  $flag = 1;
@@ -86,25 +86,25 @@ while (<IN>){
 			$flag = 0;
 			print "$scaff $pos fail AF = 1 : ";
 		}
-		if(m/BQB=([0-9\-\.]*)/){   # = BaseQRankSum in GATK
-			if (abs($1) > $bqrs){
+		if(m/BQB=([0-9\-\.e]*)/){   # = BaseQRankSum in GATK
+			if ($1 < $bqrs){
 				$flag = 0;
 				print "$scaff $pos fail BQRS : ";
 			}
 		}
-		if(m/MQB=([0-9\-\.]*)/){   # = MQRankSum in GATK
-			if (abs($1) > $mqrs){
+		if(m/MQB=([0-9\-\.e]*)/){   # = MQRankSum in GATK
+			if ($1 < $mqrs){
 				$flag = 0;
 				print "$scaff $pos fail MQRS : ";
 			}
 		}
-		if(m/RPB=([0-9\-\.]*)/){   # = ReadPosRankSum in GATK
-			if (abs($1) > $rprs){
+		if(m/RPB=([0-9\-\.e]*)/){   # = ReadPosRankSum in GATK
+			if ($1 < $rprs){
 				$flag = 0;
 				print "$scaff $pos fail RPRS : ";
 			}
 		}
-		if(m/AF1=([0-9\.]+)/){ 
+		if(m/AF1=([0-9\.e\-]+)/){ 
 			if ( ($1 < $afreqMin) || ($1 > $afreqMax) ){
 				$flag = 0;
 				print "$scaff $pos fail AF : ";
