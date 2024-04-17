@@ -74,7 +74,7 @@ cd /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/
 module load perl
 perl ../splitFastq.pl ../lycID_L1new.csv parsed_comb_L1.fastq
 ```
-Note: you can find `splitFastq.pl` here. You need to adjust the individual ID row to match your individual id with the splitFastq.pl script
+Note: you can find [splitFastq.pl](splitFastq.pl) here. You need to adjust the individual ID row to match your individual id with the splitFastq.pl script
 
 ### 4. Alignment and variant calling
 Aligning individual reads to the reference genome and get SNP calls 
