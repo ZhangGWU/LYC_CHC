@@ -56,6 +56,25 @@ sed 1d lycID_L2.csv> lycID_L2new.csv
 cat parsed_x* > parsed_comb_L1.fastq
 cat parsed_x* > parsed_comb_L2.fastq
 ```
+### get individual fastq files ###
+```
+#!/bin/sh
+#SBATCH --time=96:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=8
+#SBATCH --account=gompert-kp
+#SBATCH --partition=gompert-kp
+#SBATCH --job-name=L1splitfastq
+
+## This script is to run the parse_barcodes.pl script on the cluster
+
+
+cd /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/fastq/parsed/library1/
+
+module load perl
+perl ../splitFastq.pl ../lycID_L1new.csv parsed_comb_L1.fastq
+```
+Note: you need to adjust the individual ID row to match your individual id with the splitFastq.pl script
 
 ### 4. Alignment and variant calling
 Aligning individual reads to the reference genome and get SNP calls 
