@@ -285,7 +285,7 @@ This is the code file mpgl2peg.sh
 
 perl gl2genest.pl doubleFiltered_variants.mpgl
 ```
-This will generate gl_doubleFiltered_variants.mpgl, this genotype matrix is used for generating ldak files. R script for ldak files is here [generate ldak.R](generate ldak.R)
+This will generate gl_doubleFiltered_variants.mpgl, this genotype matrix is used for generating ldak files. R script for ldak files is `generate ldak.R`
 
 #### Add the header, this is input file for entropy run ###
 
