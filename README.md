@@ -319,8 +319,14 @@ cd /uufs/chpc.utah.edu/common/home/gompert-group3/data/lycaeides_chc_experiment/
 perl forkEntropy_lmel.pl
 
 ```
+### 10.1 Check if the MCMC chains converge ###
 
-### 10. Get the genotype estimates from entropy: run CHCgprob.sh ####
+```
+/uufs/chpc.utah.edu/common/home/u6000989/bin/estpost.entropy ES_out__k2_ch1.hdf5 ES_out__k2_ch2.hdf5 ES_out__k2_ch3.hdf5 ES_out__k2_ch4.hdf5 ES_out__k2_ch5.hdf5 ES_out__k2_ch6.hdf5 ES_out__k2_ch7.hdf5 ES_out__k2_ch8.hdf5 -p q -s 4 -o ESk2dig.txt
+```
+###### check if in the output file ESk2dig.txt, the values for each loci are close to 1, the closer it is, the more converge the chains are ###
+
+### 10.2 Get the genotype estimates from entropy: run CHCgprob.sh ####
 ```
 #!/bin/sh 
 #SBATCH --time=72:00:00
