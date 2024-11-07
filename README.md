@@ -1,5 +1,5 @@
 # LYC_CHC by Linyi Zhang 2023 #
-
+## Get the genotype estimates from Entropy from ddRAD seq data 
 ### 1. File preparation ###
 Path to the data 
 ```
