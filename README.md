@@ -75,6 +75,9 @@ module load perl
 perl ../splitFastq.pl ../lycID_L1new.csv parsed_comb_L1.fastq
 ```
 Note: you can find [splitFastq.pl](splitFastq.pl) here. You need to adjust the individual ID row to match your individual id with the splitFastq.pl script
+This red circled line is the code line you need to adjust to match you individual ID: 
+<img width="972" alt="image" src="https://github.com/user-attachments/assets/c2ccf8be-0da4-4c89-9d11-a051dfc4dcdf" />
+
 
 ### 4. Alignment and variant calling
 Aligning individual reads to the reference genome and get SNP calls 
