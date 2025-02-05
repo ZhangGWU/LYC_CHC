@@ -80,8 +80,9 @@ This is the code line in splitFastq.pl that you need to adjust to match you indi
 ### 4. Alignment and variant calling
 Aligning individual reads to the reference genome and get SNP calls 
 ```
-conda activate pipeline-structural-variation ### this is to activate bwa function 
+conda activate YOURENVIRONMENTNAME ### this is to activate your environment where you loaded bwa, bcftools function.
 ```
+Instructions on how to create your conda environment, install and load the programs you need, please ask chatgpt or any AI assistant. 
 #### Create index files from reference genome
 ```
 #!/bin/sh
