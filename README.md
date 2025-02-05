@@ -75,8 +75,7 @@ module load perl
 perl ../splitFastq.pl ../lycID_L1new.csv parsed_comb_L1.fastq
 ```
 Note: you can find [splitFastq.pl](splitFastq.pl) here. The script here is written to match the individual id like this: "VIC-L-20-17". If your individual ID doesn't look like this, you might need to adjust the individual ID row to match your individual id with the splitFastq.pl script.
-This is the code line you need to adjust to match you individual ID: if (/^\@([A-Za-z0-9\-_]+)/).
-You can ask chatGPT how to revise the code to match your individual id in perl language. 
+This is the code line in splitFastq.pl that you need to adjust to match you individual ID: if (/^\@([A-Za-z0-9\-_]+)/).Here A-Za-z0-9\-_ means any uppercase letter (A-Z), any lowercase letter (a-z), any digit (0-9), the hyphen (-), or the underscore (_). You can ask chatGPT how to revise the code to match your individual id in perl language. 
 
 ### 4. Alignment and variant calling
 Aligning individual reads to the reference genome and get SNP calls 
