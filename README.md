@@ -77,7 +77,7 @@ perl ../splitFastq.pl ../lycID_L1new.csv parsed_comb_L1.fastq
 Note: you can find [splitFastq.pl](splitFastq.pl) here. The script here is written to match the individual id like this: "VIC-L-20-17". If your individual ID doesn't look like this, you might need to adjust the individual ID row to match your individual id with the splitFastq.pl script.
 This is the code line in splitFastq.pl that you need to adjust to match you individual ID: if (/^\@([A-Za-z0-9\-_]+)/).Here A-Za-z0-9\-_ means any uppercase letter (A-Z), any lowercase letter (a-z), any digit (0-9), the hyphen (-), or the underscore (_). You can ask chatGPT how to revise the code to match your individual id in perl language. 
 
-### You need a reference genome to do the following analysis. If you don't have a assemble genome ready for analysis, you want to do a de Novo assembly based on your sequences (please follow steps in section 3 in the [NextGenNotes_v4_2019.pdf](NextGenNotes_v4_2019.pdf). 
+### You need a reference genome to do the part 4 analysis. If you don't have a assemble genome ready for analysis, you want to do a de Novo assembly based on your sequences (please follow steps in section 3 in the [NextGenNotes_v4_2019.pdf](NextGenNotes_v4_2019.pdf). 
 Here is the list of the scripts you need to make a de novo genome assembly: [ddocent.sh](ddocent.sh), [ddocentPart2.sh](ddocentPart2.sh), [tapewormRemover.pl](tapewormRemover.pl). Note: Parallel comuputing are required in the ddocent script, you might want to check how to do the parallel computing in your cluster setting. 
 
 ### 4. Alignment and variant calling 
