@@ -253,9 +253,9 @@ export -f calculate_coverage
 parallel -j 24 calculate_coverage ::: "${bam_files[@]}" > "$output_file"
 ```
 
-Remove individuals with <2x depth (2*211376), remove 15 more individuals, leave 750 individuals
+Remove individuals with <2x depth (2*211376,211376 is the number of loci), remove 15 more individuals, leave 750 individuals
 
-### 7. Redo variant calling and filtering ####
+### 7. Redo variant calling and filtering (if you use individual sequences to do de novo genome assembly, you also redo the de novo genome assembly after excluding these low coverage individuals)####
 in the directory vrecall
 ```
 sbatch variantcall.sh
@@ -276,6 +276,8 @@ perl vcf2mpgl_CCN_1.9.pl doubleFiltered_variants.vcf  ### need to change the exp
 
 ```
 This generate doubleFiltered_variants.mpgl
+
+###### You want to do another round of filtering if your genome assembly is a de novo assembly, in this filtering step, you are reducing the degree of linkage disequilibrium by only selection one locus per scaffold. Following the steps in [NextGenNotes_v4_2019.pdf](NextGenNotes_v4_2019.pdf).
 
 #### Transform the genotype likelihood files into a genotype matrix (point estimate of genotype) 
 This is the code file mpgl2peg.sh 
