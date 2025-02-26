@@ -293,7 +293,7 @@ This is the code file mpgl2peg.sh
 
 perl gl2genest.pl doubleFiltered_variants.mpgl
 ```
-This will generate gl_doubleFiltered_variants.mpgl, this genotype matrix is used for generating ldak files. R script for ldak files is `generate ldak.R`
+This will generate gl_doubleFiltered_variants.mpgl, this genotype matrix is used for generating ldak files. R script for ldak files is `generate ldak.R`. 
 
 #### Add the header, this is input file for entropy run ###
 
@@ -354,8 +354,10 @@ module load gcc/8.5.0 hdf5/1.10.7
 
 ```
 ### 10.3 Get admixture proportion for individuals (data to generate structure plots) 
+```
 /uufs/chpc.utah.edu/common/home/u6000989/bin/estpost.entropy ES_out_k2_ch1.hdf5 ES_out_k2_ch2.hdf5 ES_out_k2_ch3.hdf5 ES_out_k2_ch4.hdf5 ES_out_k2_ch5.hdf5 ES_out_k2_ch6.hdf5 ES_out_k2_ch7.hdf5 ES_out_k2_ch8.hdf5 ES_out_k2_ch9.hdf5 ES_out_k2_ch10.hdf5 -p q -s 0 -o ES_q2.txt
 
 /uufs/chpc.utah.edu/common/home/u6000989/bin/estpost.entropy ES_out_k3_ch1.hdf5 ES_out_k3_ch2.hdf5 ES_out_k3_ch3.hdf5 ES_out_k3_ch4.hdf5 ES_out_k3_ch5.hdf5 ES_out_k3_ch6.hdf5 ES_out_k3_ch7.hdf5 ES_out_k3_ch8.hdf5 ES_out_k3_ch9.hdf5 ES_out_k3_ch10.hdf5 -p q -s 0 -o ES_q3.txt
 
 /uufs/chpc.utah.edu/common/home/u6000989/bin/estpost.entropy ES_out_k4_ch1.hdf5 ES_out_k4_ch2.hdf5 ES_out_k4_ch3.hdf5 ES_out_k4_ch4.hdf5 ES_out_k4_ch5.hdf5 ES_out_k4_ch6.hdf5 ES_out_k4_ch7.hdf5 ES_out_k4_ch8.hdf5 ES_out_k4_ch9.hdf5 ES_out_k4_ch10.hdf5 -p q -s 0 -o ES_q4.txt
+```
