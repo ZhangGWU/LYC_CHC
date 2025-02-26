@@ -259,6 +259,7 @@ Remove individuals with <2x depth (2*211376,211376 is the number of loci), remov
 in the directory vrecall
 ```
 sbatch variantcall.sh
+sbatch variantcall2.sh
 sbatch filter1.sh
 sbatch filter2.sh
 sbatch filter3.sh ### depth filtering: total loci： 217166， maxCoverage= mean + 2sd : 37413.41, make sure everything is the same as vcfFilter_CCN_1.9.pl, expect for depth coverage
@@ -305,6 +306,8 @@ cp header_ids.txt header_T.txt
 cat header_T.txt doubleFiltered_variants.mpgl >lyc_entropy.mpgl
 
 ```
+#### 8.2. Use the genotype matrix file to generate a coarse preview of PCA result 
+You can obtain a coarse population structure view using the genotype matrix file generated from the VCF input. This genotype matrix file, gl_doubleFiltered_variants.mpgl, is the same one used to generate IDAK files. To generate PCA results, you can use the R script [BWA_genotype_likelihood_PCA.R](BWA_genotype_likelihood_PCA.R).
 
 ### 9. Run entropy: run_entropy_lmel.sh
 ```
@@ -350,3 +353,9 @@ module load gcc/8.5.0 hdf5/1.10.7
 /uufs/chpc.utah.edu/common/home/u6000989/bin/estpost.entropy out_lmel_k2_ch1.hdf5 out_lmel_k2_ch2.hdf5 out_lmel_k2_ch3.hdf5 out_lmel_k2_ch4.hdf5 out_lmel_k2_ch5.hdf5 out_lmel_k2_ch6.hdf5 out_lmel_k2_ch7.hdf5 out_lmel_k2_ch8.hdf5 out_lmel_k2_ch9.hdf5 out_lmel_k2_ch10.hdf5  out_lmel_k3_ch1.hdf5 out_lmel_k3_ch2.hdf5 out_lmel_k3_ch3.hdf5 out_lmel_k3_ch4.hdf5 out_lmel_k3_ch5.hdf5 out_lmel_k3_ch6.hdf5 out_lmel_k3_ch7.hdf5 out_lmel_k3_ch8.hdf5 out_lmel_k3_ch9.hdf5 out_lmel_k3_ch10.hdf5 out_lmel_k4_ch1.hdf5 out_lmel_k4_ch2.hdf5 out_lmel_k4_ch3.hdf5 out_lmel_k4_ch4.hdf5 out_lmel_k4_ch5.hdf5 out_lmel_k4_ch6.hdf5 out_lmel_k4_ch7.hdf5 out_lmel_k4_ch8.hdf5 out_lmel_k4_ch9.hdf5 out_lmel_k4_ch10.hdf5 -o CHC_gprob.txt -p gprob -s 0
 
 ```
+### 10.3 Get admixture proportion for individuals (data to generate structure plots) 
+/uufs/chpc.utah.edu/common/home/u6000989/bin/estpost.entropy ES_out_k2_ch1.hdf5 ES_out_k2_ch2.hdf5 ES_out_k2_ch3.hdf5 ES_out_k2_ch4.hdf5 ES_out_k2_ch5.hdf5 ES_out_k2_ch6.hdf5 ES_out_k2_ch7.hdf5 ES_out_k2_ch8.hdf5 ES_out_k2_ch9.hdf5 ES_out_k2_ch10.hdf5 -p q -s 0 -o ES_q2.txt
+
+/uufs/chpc.utah.edu/common/home/u6000989/bin/estpost.entropy ES_out_k3_ch1.hdf5 ES_out_k3_ch2.hdf5 ES_out_k3_ch3.hdf5 ES_out_k3_ch4.hdf5 ES_out_k3_ch5.hdf5 ES_out_k3_ch6.hdf5 ES_out_k3_ch7.hdf5 ES_out_k3_ch8.hdf5 ES_out_k3_ch9.hdf5 ES_out_k3_ch10.hdf5 -p q -s 0 -o ES_q3.txt
+
+/uufs/chpc.utah.edu/common/home/u6000989/bin/estpost.entropy ES_out_k4_ch1.hdf5 ES_out_k4_ch2.hdf5 ES_out_k4_ch3.hdf5 ES_out_k4_ch4.hdf5 ES_out_k4_ch5.hdf5 ES_out_k4_ch6.hdf5 ES_out_k4_ch7.hdf5 ES_out_k4_ch8.hdf5 ES_out_k4_ch9.hdf5 ES_out_k4_ch10.hdf5 -p q -s 0 -o ES_q4.txt
