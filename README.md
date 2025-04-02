@@ -308,7 +308,7 @@ cat header_T.txt doubleFiltered_variants.mpgl >lyc_entropy.mpgl
 ```
 
 Here is an example of what your first few lines of final mpgl file should look like:
-[mpglscreenshot]()
+[mpglscreenshot.png](mpglscreenshot.png)
 
 #### 8.2. Use the genotype matrix file to generate a coarse preview of PCA result 
 You can obtain a coarse population structure view using the genotype matrix file generated from the VCF input. This genotype matrix file, gl_doubleFiltered_variants.mpgl, is the same one used to generate IDAK files. To generate PCA results, you can use the R script [BWA_genotype_likelihood_PCA.R](BWA_genotype_likelihood_PCA.R).
